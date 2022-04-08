@@ -22,17 +22,25 @@ public class Comment extends Timestamped {
     @Column
     private String comment;
 
-    @ManyToOne
-    @JoinColumn(name = "POST_ID",nullable = false)
-    private Post post;
+    @Column
+    private String nickname;
 
-    @ManyToOne
-    @JoinColumn(name = "USER_ID",nullable = false)
-    private User user;
+    @Column
+    private Long postId;
+//    @ManyToOne
+//    @JoinColumn(name = "POST_ID",nullable = false)
+//    private Post post;
 
-    public Comment(CommentRequestDto requestDto, Post post, User user){
-        this.post = post;
-        this.user = user;
+//    @ManyToOne
+//    @JoinColumn(name = "USER_ID",nullable = false)
+//    private User user;
+
+    public Comment(CommentRequestDto requestDto){
+//        this.post = post;
+//        this.user = user;
+        this.comment = requestDto.getComment();
+        this.nickname = requestDto.getNickname();
+        this.postId = requestDto.getPostId();
     }
 
 

@@ -1,9 +1,11 @@
 package com.sparta.webminiproject27jo.Service;
 
 import com.sparta.webminiproject27jo.Dto.CommentRequestDto;
+import com.sparta.webminiproject27jo.Model.Post;
 import com.sparta.webminiproject27jo.Repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -17,13 +19,13 @@ public class CommentService {
 
     @Transactional
     public Comment createComment(
-            Long postId,
             CommentRequestDto requestDto,
             UserDetailsImpl userDetails) {
-        Post post = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("해당하는 게시글을 찾을 수 없습니다.")
-        );
-        User user = userDetails.getUser();
+        Long postId = requestDto.getPostId();
+//        Post post = postRepository.findById(postId).orElseThrow(
+//                () -> new IllegalArgumentException("해당하는 게시글을 찾을 수 없습니다.")
+//        );
+//        User user = userDetails.getUser();
 
 //        if (bindingResult.hasErrors()){
 //            throw  new IllegalArgumentException(bindingResult.getFieldError().getDefaultMessage());}
@@ -35,8 +37,11 @@ public class CommentService {
     }
 
 
-    public List<Comment> getComment(Long postId) {
-        return commentRepository.findByPostIdOrderByModifiedAtDesc(postId);
+    public Post getComments(Long postId) {
+        List<Comment> comments = commentRepository.findByPostIdOrderByModifiedAtDesc(postId);
+
+        Post post = new Post(postId, comments);
+        return post;
     }
 
 //    @Transactional
