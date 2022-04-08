@@ -1,12 +1,11 @@
 package com.sparta.webminiproject27jo.Contoller;
 
-import com.example.todaydiary.security.UserDetailsImpl;
+
 import com.sparta.webminiproject27jo.Dto.CommentRequestDto;
 import com.sparta.webminiproject27jo.Service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,12 +21,11 @@ public class CommentController {
     public ResponseEntity<Comment> createComment(
             @PathVariable Long postId,
             @Validated @RequestBody CommentRequestDto requestDto,
-            BindingResult bindingResult,
             @AuthenticationPrincipal UserDetailsImpl userDetails
 
     ){
-        Comment comment = commentService.createComment(postId,requestDto,userDetails,bindingResult);
-        return ResponseEntity.ok(comment);
+        Comment comment = commentService.createComment(postId,requestDto,userDetails);
+        return ResponseEntity.ok(comment); //responseEntity를 생성하는 함수
     }
 
     @GetMapping("/api/post/{postId}/comments")

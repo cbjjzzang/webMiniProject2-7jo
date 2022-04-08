@@ -1,8 +1,8 @@
 package com.sparta.webminiproject27jo.Model;
 
 import com.example.todaydiary.diary.Diary;
-import com.example.todaydiary.timestamped.Timestamped;
-import com.example.todaydiary.user.User;
+import com.sparta.webminiproject27jo.timestamped.Timestamped;
+import com.sparta.webminiproject27jo.user.User;
 import com.sparta.webminiproject27jo.Dto.CommentRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,13 +31,12 @@ public class Comment extends Timestamped {
     private User user;
 
     public Comment(CommentRequestDto requestDto, Post post, User user){
-        this.comment = requestDto.getComment();
         this.post = post;
         this.user = user;
     }
 
 
-    public void updateComment(CommentRequestDto requestDto) {
-        this.comment = requestDto.getComment();
-    }
+//    public void updateComment(CommentRequestDto requestDto) {
+//        this.comment = requestDto.getComment();
+//    }
 }
