@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +49,17 @@ public class CommentController {
 //                () -> new IllegalArgumentException("id가 존재하지 않습니다."));
 //        return diary;
 //    }
+
+//    // 게시글 수정
+//    @PutMapping("/api/diary/{diaryId}")
+//    public Long updateDiary(
+//            @PathVariable Long diaryId,
+//            @RequestBody DiaryRequestDto requestDto,
+//            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        diaryService.updateDiary(diaryId, requestDto, userDetails);
+//        return diaryId;
+//    }
+
 
     @DeleteMapping("/api/comments/{commentId}")
     public void deleteComment(@PathVariable Long commentId

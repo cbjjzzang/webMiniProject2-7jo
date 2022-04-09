@@ -88,12 +88,16 @@ public class PostController {
 //    }
 //
 //
-//    //게시글 삭제
-//    @DeleteMapping("/api/diary/{diaryId}")
-//    public Long deleteDiary(@PathVariable Long diaryId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        diaryService.deleteDiary(diaryId, userDetails);
-//        return diaryId;
-//    }
+    //게시글 삭제
+    @DeleteMapping("/api/posts/{postId}")
+    public Long deletePost(@PathVariable Long postId
+//            , @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        postService.deletePost(postId
+//                , userDetails
+        );
+        return postId;
+    }
 //
 //
 //    //마이페이지

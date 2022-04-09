@@ -33,26 +33,25 @@ public class Post {
 
     @Column
     private Long userId;
-//
-//    @OneToMany
-//    @JoinColumn
-//    private List<Comment> comment;
+
 
     @OneToMany(mappedBy = "postId")
     private List<Comment> comments = new ArrayList<>();
 
-//    public Post(String cafeName, int deliveryFee, int totalPrice, List<FoodOrder> foods){
-//        this.restaurantName = cafeName;
-//        this.deliveryFee = deliveryFee;
-//        this.totalPrice = totalPrice;
-//        this.foods = foods;
-//    }
+
     public Post(PostRequestDto requestDto){
         this.content = requestDto.getContent();
         this.likeCount = requestDto.getLikeCount();
         this.imageUrl = requestDto.getImageUrl();
         this.userId = requestDto.getUserId();
-//        this.comment = comments;
     }
 
+//    public void updateDiary(DiaryRequestDto requestDto) {
+//        this.emotion = requestDto.getEmotion();
+//        this.tag = requestDto.getTag();
+//        this.imageUrlList = requestDto.getImageUrlList();
+//        this.title = requestDto.getTitle();
+//        this.content = requestDto.getContent();
+//        this.is_open = requestDto.getIs_open();
+//    }
 }

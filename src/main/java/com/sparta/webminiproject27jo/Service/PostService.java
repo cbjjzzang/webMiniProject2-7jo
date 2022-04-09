@@ -10,16 +10,16 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
 public class PostService {
 
     private final PostRepository postRepository;
-//    private final ImageUrlRepository imageUrlRepository;
     private final CommentRepository commentRepository;
+//    private final ImageUrlRepository imageUrlRepository;
 //    private final DiaryLikeRepository diaryLikeRepository;
-
 
 
 
@@ -50,7 +50,7 @@ public class PostService {
         return postRepository.save(post);
     }
 
-//
+
 //    //수정
 //    @Transactional
 //    public Diary updateDiary(
@@ -74,25 +74,22 @@ public class PostService {
 //        diaryRepository.save(diary);
 //        return diary;
 //    }
-//
-//
-//    //삭제
-//    @Transactional
-//    public Long deleteDiary(Long diaryId, UserDetailsImpl userDetails) {
-//        Diary diary = diaryRepository.findById(diaryId).orElseThrow(
-//                () -> new IllegalArgumentException("일기가 존재하지 않습니다.")
-//        );
-//        User user = diary.getUser();
-//        Long deleteId = user.getId();
-//        if (!Objects.equals(userDetails.getUser().getId(), deleteId)) {
-//            throw new IllegalArgumentException("작성자만 수정할 수 있습니다.");
-//        }
-//        List<Comment> comments = commentRepository.findAllByDiaryId(diaryId);
-//        for(Comment comment : comments){
-//            commentRepository.deleteById(comment.getId());
-//        }
-//        diaryLikeRepository.deleteByDiary(diary);
-//        diaryRepository.deleteById(diaryId);
-//        return diaryId;
-//    }
+
+
+    //삭제
+    @Transactional
+    public void deletePost(Long postId
+//            , UserDetailsImpl userDetails
+    ) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new IllegalArgumentException("일기가 존재하지 않습니다.")
+        );
+        List<Comment> comments = commentRepository.findAllByPostId(postId);
+        for(Comment comment : comments){
+            Long temp = comment.getId();
+            commentRepository.deleteById(temp);
+        }
+//        postLikeRepository.deleteByPost(post);
+        postRepository.deleteById(postId);
+    }
 }

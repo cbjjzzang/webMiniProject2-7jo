@@ -66,7 +66,7 @@ public class CommentService {
 //        if (!Objects.equals(commentUserId, loginUserId)){
 //            throw new IllegalArgumentException("작성자만 삭제 할 수 있습니다.");
 //        } else {
-            commentRepository.deleteById(commentId);
-        }
+        commentRepository.deleteById(commentId);
+    }
 
 }
