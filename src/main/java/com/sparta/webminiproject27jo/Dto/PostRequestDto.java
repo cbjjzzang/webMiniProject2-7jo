@@ -13,6 +13,6 @@ public class PostRequestDto {
 
     private String content;
     private int likeCount;
-    private String iamgeUrl;
+    private String imageUrl;
     private Long userId;
 }

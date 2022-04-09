@@ -50,7 +50,7 @@ public class Post {
     public Post(PostRequestDto requestDto){
         this.content = requestDto.getContent();
         this.likeCount = requestDto.getLikeCount();
-        this.imageUrl = requestDto.getIamgeUrl();
+        this.imageUrl = requestDto.getImageUrl();
         this.userId = requestDto.getUserId();
 //        this.comment = comments;
     }
