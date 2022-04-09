@@ -1,9 +1,8 @@
 package com.sparta.webminiproject27jo.Model;
 
-import com.example.todaydiary.diary.Diary;
-import com.sparta.webminiproject27jo.timestamped.Timestamped;
-import com.sparta.webminiproject27jo.user.User;
+
 import com.sparta.webminiproject27jo.Dto.CommentRequestDto;
+import com.sparta.webminiproject27jo.Timestamped.Timestamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,20 +26,21 @@ public class Comment extends Timestamped {
 
     @Column
     private Long postId;
-//    @ManyToOne
-//    @JoinColumn(name = "POST_ID",nullable = false)
-//    private Post post;
+
 
 //    @ManyToOne
 //    @JoinColumn(name = "USER_ID",nullable = false)
 //    private User user;
 
-    public Comment(CommentRequestDto requestDto){
+    public Comment(CommentRequestDto requestDto
+//            , Post post
+    ){
 //        this.post = post;
 //        this.user = user;
         this.comment = requestDto.getComment();
         this.nickname = requestDto.getNickname();
         this.postId = requestDto.getPostId();
+
     }
 
 

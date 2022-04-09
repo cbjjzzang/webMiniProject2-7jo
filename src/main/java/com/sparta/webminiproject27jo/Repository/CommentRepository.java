@@ -1,5 +1,6 @@
 package com.sparta.webminiproject27jo.Repository;
 
+import com.sparta.webminiproject27jo.Model.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
