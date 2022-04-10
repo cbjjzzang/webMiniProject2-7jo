@@ -32,11 +32,6 @@ public class CommentController {
         return ResponseEntity.ok(comment); //responseEntity를 생성하는 함수
     }
 
-    @GetMapping("/api/post/{postId}/comments")
-    public Optional<Post> getComments(@PathVariable Long postId){
-        return commentService.getPost(postId);
-
-    }
     @GetMapping("/api/post/comments")
     public List<Comment> showComments(){
         return commentService.showComment();

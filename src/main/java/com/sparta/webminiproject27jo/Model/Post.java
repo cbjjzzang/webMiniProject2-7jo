@@ -1,6 +1,7 @@
 package com.sparta.webminiproject27jo.Model;
 
 import com.sparta.webminiproject27jo.Dto.PostRequestDto;
+import com.sparta.webminiproject27jo.Timestamped.Timestamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,11 +17,12 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Table
-public class Post {
+
+public class Post extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long PostId;
 
     @Column
     private String content;

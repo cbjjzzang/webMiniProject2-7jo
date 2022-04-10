@@ -1,48 +1,38 @@
-//package com.sparta.webminiproject27jo.Dto;
-//
-//import com.example.todaydiary.diary.DiaryLike.DiaryLike;
-//import com.example.todaydiary.diary.ImageUrl.ImageUrl;
-//import lombok.Getter;
-//import lombok.Setter;
-//
-//import java.time.LocalDateTime;
-//import java.util.List;
-//
-//@Getter
-//@Setter
-//public class DiaryResponseDto {
-//    private final Long id;
-//    private final String title;
-//    private final String nickname;
-//    private final Long uid;
-//    private final String user_profile;
-//    private final String content;
-//    private final LocalDateTime createdAt;
-//    private final LocalDateTime modifiedAt;
-//    private final List <ImageUrl> imageUrls;
+package com.sparta.webminiproject27jo.Dto;
+
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+
+
+@Getter
+@Setter
+public class PostResponseDto {
+    private final Long postId;
+    private final Long userId;
+    private final String content;
+    private final LocalDateTime modifiedAt;
+    private final String imageUrl;
 //    private final String emotion;
 //    private final String tag;
 //    private final Boolean is_open;
 //    private DiaryLike diaryLike;
 //    private Long diaryLikeTotal;
-//
-//
-//    public DiaryResponseDto(Long id,String title,String nickname, Long uid, String user_profile,String content, LocalDateTime createdAt, LocalDateTime modifiedAt,
-//                            List<ImageUrl> imageUrlList , String emotion, String tag, Boolean is_open, DiaryLike diaryLike, Long diaryLikeTotal) {
-//        this.id = id;
-//        this.title = title;
-//        this.nickname = nickname;
-//        this.uid = uid;
-//        this.user_profile = user_profile;
-//        this.content = content;
-//        this.createdAt = createdAt;
-//        this.modifiedAt = modifiedAt;
-//        this.imageUrls = imageUrlList;
+
+
+    public PostResponseDto(Long postId,String content,Long userId, LocalDateTime modifiedAt, String imageUrl){
+//    List<ImageUrl> imageUrlList , String emotion, String tag, Boolean is_open, DiaryLike diaryLike, Long diaryLikeTotal) {
+        this.postId = postId;
+        this.content = content;
+        this.userId = userId;
+        this.modifiedAt = modifiedAt;
+        this.imageUrl = imageUrl;
 //        this.emotion = emotion;
 //        this.tag = tag;
 //        this.is_open = is_open;
 //        this.diaryLike = diaryLike;
 //        this.diaryLikeTotal = diaryLikeTotal;
-//
-//    }
-//}
+
+    }
+}
