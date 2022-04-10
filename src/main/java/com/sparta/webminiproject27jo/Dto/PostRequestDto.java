@@ -15,6 +15,6 @@ public class PostRequestDto {
     private int likeCount;
     private String imageUrl;
     private Long userId;
-    private Boolean is_open;
+//    private Boolean is_open;
 
 }

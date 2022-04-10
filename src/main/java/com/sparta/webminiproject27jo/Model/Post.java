@@ -48,12 +48,10 @@ public class Post extends Timestamped {
         this.userId = requestDto.getUserId();
     }
 
-//    public void updateDiary(DiaryRequestDto requestDto) {
-//        this.emotion = requestDto.getEmotion();
-//        this.tag = requestDto.getTag();
-//        this.imageUrlList = requestDto.getImageUrlList();
-//        this.title = requestDto.getTitle();
-//        this.content = requestDto.getContent();
+    public void updatePost(PostRequestDto requestDto) {
+        this.content = requestDto.getContent();
+        this.imageUrl = requestDto.getImageUrl();
+//        this.likeCount = requestDto.getImageUrl();
 //        this.is_open = requestDto.getIs_open();
-//    }
+    }
 }

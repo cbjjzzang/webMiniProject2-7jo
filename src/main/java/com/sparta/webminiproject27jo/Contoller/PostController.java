@@ -81,15 +81,18 @@ public class PostController {
         return postService.createPost(postRequestDto);
     }
 
-//    // 게시글 수정
-//    @PutMapping("/api/diary/{diaryId}")
-//    public Long updateDiary(
-//            @PathVariable Long diaryId,
-//            @RequestBody DiaryRequestDto requestDto,
-//            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        diaryService.updateDiary(diaryId, requestDto, userDetails);
-//        return diaryId;
-//    }
+     //게시글 수정
+    @PutMapping("/api/posts/{postId}")
+    public Long updateDiary(
+            @PathVariable Long postId,
+            @RequestBody PostRequestDto requestDto
+//            , @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        postService.updatePost(postId, requestDto
+//                , userDetails
+        );
+        return postId;
+    }
 //
 //
     //게시글 삭제
