@@ -13,10 +13,8 @@ import java.time.LocalDateTime;
 public class PostRequestDto {
 
     private String content;
-    //    private int likeCount;
     private String imageUrl;
     private Long userId;
-//    private Boolean is_open;
 
     public PostRequestDto(String content, String imageUrl, Long userId) {
         this.content = content;

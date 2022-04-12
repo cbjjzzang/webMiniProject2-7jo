@@ -23,7 +23,7 @@ public class PostLikeService {
     private final PostRepository postRepository;
 
     @Transactional
-    public PostLikeResponseDto addLike(Long postId, Long uid) {
+    public Boolean addLike(Long postId, Long uid) {
         User user = userRepository.findById(uid).orElseThrow(
                 () -> new IllegalArgumentException("유저 정보가 없습니다.")
         );
@@ -33,15 +33,18 @@ public class PostLikeService {
         );
 
         PostLike findLike = postLikeRepository.findByUserAndPost(user,post).orElse(null);
-
+        Boolean openOrNot;
         if(findLike == null){
             PostLikeRequestDto requestDto = new PostLikeRequestDto(user, post);
             PostLike postLike = new PostLike(requestDto);
             postLikeRepository.save(postLike);
+            openOrNot = true;
         } else {
             postLikeRepository.deleteById(findLike.getId());
+            openOrNot = false;
         }
-        return new PostLikeResponseDto(postId, postLikeRepository.countByPost(post));
+        new PostLikeResponseDto(postId, postLikeRepository.countByPost(post));
+        return openOrNot;
     }
 
   public List<PostLike> showLike() {

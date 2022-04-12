@@ -21,11 +21,9 @@ public class PostLikeController {
     private final PostLikeService postLikeService;
 
     @PostMapping("api/like/{postId}")
-    public PostLikeResponseDto postLike(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails)
+    public Boolean postLike(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails)
      {
-        return postLikeService.addLike(postId,
-                userDetails.getUser().getId()
-                );
+        return postLikeService.addLike(postId, userDetails.getUser().getId());
     }
 
     @GetMapping("/api/likes")

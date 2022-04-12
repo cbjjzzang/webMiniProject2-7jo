@@ -3,7 +3,6 @@ package com.sparta.webminiproject27jo.Contoller;
 
 import com.sparta.webminiproject27jo.Dto.SignupRequestDto;
 import com.sparta.webminiproject27jo.Dto.UserInfoDto;
-import com.sparta.webminiproject27jo.Dto.UsernameCheckDto;
 import com.sparta.webminiproject27jo.Model.User;
 import com.sparta.webminiproject27jo.security.UserDetailsImpl;
 import com.sparta.webminiproject27jo.Service.UserService;
@@ -26,11 +25,6 @@ public class UserController {
         return userService.registerUser(requestDto);
     }
 
-//    아이디 중복 체크
-//    @PostMapping("/api/userName")
-//    public String usernameCheck(@RequestBody UsernameCheckDto usernameCheckDto){
-//        return userService.usernameCheck(usernameCheckDto);
-//    }
 
     //로그인 여부 확인
     @PostMapping("/api/login")

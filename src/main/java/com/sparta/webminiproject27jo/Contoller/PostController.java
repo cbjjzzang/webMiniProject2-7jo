@@ -11,7 +11,9 @@ import com.sparta.webminiproject27jo.Repository.PostLikeRepository;
 import com.sparta.webminiproject27jo.Repository.PostRepository;
 import com.sparta.webminiproject27jo.Service.CommentService;
 import com.sparta.webminiproject27jo.Service.PostService;
+import com.sparta.webminiproject27jo.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -36,10 +38,6 @@ public class PostController {
 
 
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
-        //계층 간 작업 시 Dto를 사용하는 습관을 갖는게 중요함.
-        //Controller에서 직접 Diary diary를 건드리기보다 Dto를 활용하자.
-        //효율성 측면에서도 좋음. Diary 테이블(DB)에는 User의 정보 전부(id, nickname, password, email 등)가 연결되어있음.
-        //내가 진짜 필요한 정보만 담아서 활용하는 것. User 전체가 아닌 User의 nickname만 뽑아서 쓰는 것이 효율적임.
 
         for (Post post : posts) {
             Long postLikeTotal = postLikeRepository.countByPost(post);
@@ -51,9 +49,7 @@ public class PostController {
                     post.getImageUrl(),
                     postLikeTotal
             );
-
             postResponseDtos.add(postResponseDto);
-
         }
 
         return postResponseDtos;
@@ -79,8 +75,7 @@ public class PostController {
     // 게시글 작성
     @PostMapping("/api/posts")
     public Post createPost(
-            @RequestBody PostRequestDto postRequestDto
-//            @AuthenticationPrincipal UserDetailsImpl userDetails
+            @RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
 
 //        User user = userDetails.getUser();
@@ -92,24 +87,16 @@ public class PostController {
     @PutMapping("/api/posts/{postId}")
     public Long updateDiary(
             @PathVariable Long postId,
-            @RequestBody PostRequestDto requestDto
-//            , @AuthenticationPrincipal UserDetailsImpl userDetails
-    ) {
-        postService.updatePost(postId, requestDto
-//                , userDetails
-        );
+            @RequestBody PostRequestDto requestDto) {
+        postService.updatePost(postId, requestDto);
         return postId;
     }
 //
 //
     //게시글 삭제
     @DeleteMapping("/api/posts/{postId}")
-    public Long deletePost(@PathVariable Long postId
-//            , @AuthenticationPrincipal UserDetailsImpl userDetails
-    ) {
-        postService.deletePost(postId
-//                , userDetails
-        );
+    public Long deletePost(@PathVariable Long postId) {
+        postService.deletePost(postId);
         return postId;
     }
 

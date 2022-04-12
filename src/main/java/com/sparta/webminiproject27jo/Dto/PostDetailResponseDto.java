@@ -21,7 +21,6 @@ public class PostDetailResponseDto {
 
 
     public PostDetailResponseDto(Long postId, Long userId, String content, LocalDateTime modifiedAt, String imageUrl, Long postLikeTotal, List<Comment> comments){
-//    List<ImageUrl> imageUrlList , String emotion, String tag, Boolean is_open, DiaryLike diaryLike, Long diaryLikeTotal) {
         this.postId = postId;
         this.content = content;
         this.userId = userId;
