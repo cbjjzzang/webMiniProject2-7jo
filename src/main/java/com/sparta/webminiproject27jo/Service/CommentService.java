@@ -1,9 +1,12 @@
 package com.sparta.webminiproject27jo.Service;
 
 import com.sparta.webminiproject27jo.Dto.CommentRequestDto;
+import com.sparta.webminiproject27jo.Dto.PostRequestDto;
+import com.sparta.webminiproject27jo.Dto.PostResponseDto;
 import com.sparta.webminiproject27jo.Model.Comment;
 import com.sparta.webminiproject27jo.Model.Post;
 import com.sparta.webminiproject27jo.Repository.CommentRepository;
+import com.sparta.webminiproject27jo.Repository.PostLikeRepository;
 import com.sparta.webminiproject27jo.Repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,7 @@ public class CommentService {
 
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
+    private final PostLikeRepository postLikeRepository;
 
 
     @Transactional
@@ -37,6 +41,25 @@ public class CommentService {
 
     }
 
+// 연관관계 삽질
+//    public Post getPost(Long postId) {
+//        Post post = postRepository.getById(postId);
+//        Long postLikeTotal = postLikeRepository.countByPost(post);
+//        PostRequestDto postRequestDto = new PostRequestDto(
+//                post.getContent(),
+//                post.getImageUrl(),
+//                post.getUserId()
+//        );
+//
+//        return new Post(postRequestDto, postLikeTotal);
+//    }
+//
+//    public List<Comment> showComment() {
+//
+//
+////        Post post = new Post(postId, comments);
+//        return commentRepository.findAll();
+//    }
 
     public Optional<Post> getPost(Long postId) {
         Optional<Post> post = postRepository.findById(postId);
@@ -51,7 +74,6 @@ public class CommentService {
 //        Post post = new Post(postId, comments);
         return commentRepository.findAll();
     }
-
 
     @Transactional
     public void deleteComment(Long commentId

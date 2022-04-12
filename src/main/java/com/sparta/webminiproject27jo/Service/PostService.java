@@ -36,7 +36,7 @@ public class PostService {
 //            );
 //        }
 
-        String content = requestDto.getContent();
+//        String content = requestDto.getContent();
 //        List<Comment> comments = commentRepository.findAllByPostId(postId);
 //        if (requestDto.getContent() == null) {
 //            throw new IllegalArgumentException("내용을 입력해주세요.");
@@ -51,7 +51,7 @@ public class PostService {
     }
 
 
-//    //수정
+    //수정
     @Transactional
     public Post updatePost(
             Long id,
@@ -66,6 +66,10 @@ public class PostService {
         postRepository.save(post);
         return post;
     }
+
+    //좋아요 더하기 수정
+
+
 
 
     //삭제

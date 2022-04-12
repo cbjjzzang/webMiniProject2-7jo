@@ -4,6 +4,7 @@ package com.sparta.webminiproject27jo.Contoller;
 import com.sparta.webminiproject27jo.Dto.PostRequestDto;
 import com.sparta.webminiproject27jo.Dto.PostResponseDto;
 import com.sparta.webminiproject27jo.Model.Post;
+import com.sparta.webminiproject27jo.Repository.PostLikeRepository;
 import com.sparta.webminiproject27jo.Repository.PostRepository;
 import com.sparta.webminiproject27jo.Service.CommentService;
 import com.sparta.webminiproject27jo.Service.PostService;
@@ -23,7 +24,7 @@ public class PostController {
     private final PostService postService;
     private final CommentService commentService;
 //    private final DiaryLikeService postLikeService;
-//    private final PostLikeRepository postLikeRepository;
+    private final PostLikeRepository postLikeRepository;
 
     // 게시글 조회
     @GetMapping("/api/posts")
@@ -38,7 +39,7 @@ public class PostController {
         //내가 진짜 필요한 정보만 담아서 활용하는 것. User 전체가 아닌 User의 nickname만 뽑아서 쓰는 것이 효율적임.
 
         for (Post post : posts) {
-//            Long diaryLikeTotal = diaryLikeRepository.countByDiary(diary);
+            Long postLikeTotal = postLikeRepository.countByPost(post);
             PostResponseDto postResponseDto = new PostResponseDto(
                     post.getPostId(),
 //                    post.getLikeCount(),
@@ -48,12 +49,12 @@ public class PostController {
                     post.getContent(),
                     post.getUserId(),
                     post.getModifiedAt(),
-                    post.getImageUrl()
+                    post.getImageUrl(),
 //                    post.getEmotion(),
 //                    post.getTag(),
 //                    post.getIs_open(),
-//                    post.getDiaryLike(),
-//                    diaryLikeTotal
+//                    post.getPostLike(),
+                    postLikeTotal
             );
 
             postResponseDtos.add(postResponseDto);

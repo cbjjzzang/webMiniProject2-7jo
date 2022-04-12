@@ -1,11 +1,9 @@
 package com.sparta.webminiproject27jo.Model;
 
 import com.sparta.webminiproject27jo.Dto.PostRequestDto;
+import com.sparta.webminiproject27jo.Dto.PostResponseDto;
 import com.sparta.webminiproject27jo.Timestamped.Timestamped;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ public class Post extends Timestamped {
     private String content;
 
     @Column
-    private int likeCount;
+    private Long likeCount;
 
     @Column
     private String imageUrl;
@@ -41,17 +39,30 @@ public class Post extends Timestamped {
     private List<Comment> comments = new ArrayList<>();
 
 
-    public Post(PostRequestDto requestDto){
-        this.content = requestDto.getContent();
-        this.likeCount = requestDto.getLikeCount();
-        this.imageUrl = requestDto.getImageUrl();
-        this.userId = requestDto.getUserId();
-    }
-
     public void updatePost(PostRequestDto requestDto) {
         this.content = requestDto.getContent();
         this.imageUrl = requestDto.getImageUrl();
 //        this.likeCount = requestDto.getImageUrl();
 //        this.is_open = requestDto.getIs_open();
+    }
+
+    public void updatePostLike(Long likeCount) {
+        this.likeCount = likeCount;
+//        this.is_open = requestDto.getIs_open();
+    }
+
+    @Builder
+    public Post(PostRequestDto requestDto){
+        this.content = requestDto.getContent();
+//        this.likeCount = requestDto.getLikeCount();
+        this.imageUrl = requestDto.getImageUrl();
+        this.userId = requestDto.getUserId();
+    }
+
+    public Post(PostRequestDto requestDto, Long totalLikeCount){
+        this.content = requestDto.getContent();
+        this.imageUrl = requestDto.getImageUrl();
+        this.userId = requestDto.getUserId();
+        this.likeCount = totalLikeCount;
     }
 }

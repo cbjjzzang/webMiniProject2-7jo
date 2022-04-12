@@ -1,10 +1,18 @@
-//package com.sparta.webminiproject27jo.Repository;
-//
-//
-//import com.sparta.webminiproject27jo.Model.Post;
-//import org.springframework.data.jpa.repository.JpaRepository;
-//
-//
-//public interface PostLikeRepository extends JpaRepository<Post, Long> {
-//
-//}
+package com.sparta.webminiproject27jo.Repository;
+
+
+
+import com.sparta.webminiproject27jo.Model.Post;
+import com.sparta.webminiproject27jo.Model.PostLike;
+import com.sparta.webminiproject27jo.Model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface PostLikeRepository extends JpaRepository<PostLike, Long> {
+    Optional<PostLike> findByUserAndPost(User user, Post post);
+
+    Long countByPost(Post post);
+
+    Long deleteByPost(Post post);
+}

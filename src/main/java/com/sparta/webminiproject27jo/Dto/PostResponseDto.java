@@ -1,5 +1,6 @@
 package com.sparta.webminiproject27jo.Dto;
 
+import com.sparta.webminiproject27jo.Model.PostLike;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,11 +18,11 @@ public class PostResponseDto {
 //    private final String emotion;
 //    private final String tag;
 //    private final Boolean is_open;
-//    private DiaryLike diaryLike;
-//    private Long diaryLikeTotal;
+//    private PostLike postLike;
+    private Long postLikeTotal;
 
 
-    public PostResponseDto(Long postId,String content,Long userId, LocalDateTime modifiedAt, String imageUrl){
+    public PostResponseDto(Long postId,String content,Long userId, LocalDateTime modifiedAt, String imageUrl, Long postLikeTotal){
 //    List<ImageUrl> imageUrlList , String emotion, String tag, Boolean is_open, DiaryLike diaryLike, Long diaryLikeTotal) {
         this.postId = postId;
         this.content = content;
@@ -31,8 +32,8 @@ public class PostResponseDto {
 //        this.emotion = emotion;
 //        this.tag = tag;
 //        this.is_open = is_open;
-//        this.diaryLike = diaryLike;
-//        this.diaryLikeTotal = diaryLikeTotal;
+//        this.postLike = postLike;
+        this.postLikeTotal = postLikeTotal;
 
     }
 }
