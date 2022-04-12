@@ -25,8 +25,8 @@ public class Post extends Timestamped {
     @Column
     private String content;
 
-    @Column
-    private Long likeCount;
+//    @Column
+//    private Long likeCount;
 
     @Column
     private String imageUrl;
@@ -34,9 +34,9 @@ public class Post extends Timestamped {
     @Column
     private Long userId;
 
-
     @OneToMany(mappedBy = "postId")
     private List<Comment> comments = new ArrayList<>();
+
 
 
     public void updatePost(PostRequestDto requestDto) {
@@ -46,12 +46,12 @@ public class Post extends Timestamped {
 //        this.is_open = requestDto.getIs_open();
     }
 
-    public void updatePostLike(Long likeCount) {
-        this.likeCount = likeCount;
-//        this.is_open = requestDto.getIs_open();
-    }
+//    public void updatePostLike(Long likeCount) {
+//        this.likeCount = likeCount;
+////        this.is_open = requestDto.getIs_open();
+//    }
 
-    @Builder
+
     public Post(PostRequestDto requestDto){
         this.content = requestDto.getContent();
 //        this.likeCount = requestDto.getLikeCount();
@@ -59,10 +59,4 @@ public class Post extends Timestamped {
         this.userId = requestDto.getUserId();
     }
 
-    public Post(PostRequestDto requestDto, Long totalLikeCount){
-        this.content = requestDto.getContent();
-        this.imageUrl = requestDto.getImageUrl();
-        this.userId = requestDto.getUserId();
-        this.likeCount = totalLikeCount;
-    }
 }

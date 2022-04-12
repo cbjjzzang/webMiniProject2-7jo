@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -37,42 +38,16 @@ public class PostLikeService {
             PostLikeRequestDto requestDto = new PostLikeRequestDto(user, post);
             PostLike postLike = new PostLike(requestDto);
             postLikeRepository.save(postLike);
-            plusPostLike(postId);
         } else {
             postLikeRepository.deleteById(findLike.getId());
-            minusPostLike(postId);
         }
-        return new PostLikeResponseDto (postId, postLikeRepository.countByPost(post));
+        return new PostLikeResponseDto(postId, postLikeRepository.countByPost(post));
     }
 
-    //좋아요 더하기 수정
-    @Transactional
-    public Post plusPostLike(
-            Long postId
-//            ,UserDetailsImpl userDetails
-    ) {
-        Post post = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("일기가 존재하지 않습니다.")
-        );
-        Long likeCount = post.getLikeCount() + 1;
-        post.updatePostLike(likeCount);
-        postRepository.save(post);
-        return post;
+  public List<PostLike> showLike() {
+
+        return postLikeRepository.findAll();
     }
 
-    //좋아요 빼기 수정
-    @Transactional
-    public Post minusPostLike(
-            Long postId
-//            ,UserDetailsImpl userDetails
-    ) {
-        Post post = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("일기가 존재하지 않습니다.")
-        );
-        Long likeCount = post.getLikeCount() - 1;
-        post.updatePostLike(likeCount);
-        postRepository.save(post);
-        return post;
-    }
 }
 

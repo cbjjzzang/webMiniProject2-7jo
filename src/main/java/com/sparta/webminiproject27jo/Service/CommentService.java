@@ -42,7 +42,7 @@ public class CommentService {
     }
 
 // 연관관계 삽질
-//    public Post getPost(Long postId) {
+//    public Post???Dto getPost(Long postId) {
 //        Post post = postRepository.getById(postId);
 //        Long postLikeTotal = postLikeRepository.countByPost(post);
 //        PostRequestDto postRequestDto = new PostRequestDto(
@@ -53,6 +53,20 @@ public class CommentService {
 //
 //        return new Post(postRequestDto, postLikeTotal);
 //    }
+
+    public List<Comment> showComment() {
+
+
+//        Post post = new Post(postId, comments);
+        return commentRepository.findAll();
+    }
+
+//    public Optional<Post> getPost(Long postId) {
+//        Optional<Post> post = postRepository.findById(postId);
+//
+////        Post post = new Post(postId, comments);
+//        return post;
+//    }
 //
 //    public List<Comment> showComment() {
 //
@@ -61,19 +75,7 @@ public class CommentService {
 //        return commentRepository.findAll();
 //    }
 
-    public Optional<Post> getPost(Long postId) {
-        Optional<Post> post = postRepository.findById(postId);
 
-//        Post post = new Post(postId, comments);
-        return post;
-    }
-
-    public List<Comment> showComment() {
-
-
-//        Post post = new Post(postId, comments);
-        return commentRepository.findAll();
-    }
 
     @Transactional
     public void deleteComment(Long commentId
