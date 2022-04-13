@@ -1,5 +1,6 @@
 package com.sparta.webminiproject27jo.Model;
 
+import com.sparta.webminiproject27jo.Dto.SignupRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,11 +32,12 @@ public class User {
     @Column(unique = true)
     private Long kakaoId;
 
-    public User(String username, String nickname, String password) {
-        this.username = username;
-        this.nickname = nickname;
-        this.password = password;
+    public User(SignupRequestDto requestDto) {
+        this.username = requestDto.getUsername();
+        this.nickname = requestDto.getNickname();
+        this.password = requestDto.getPassword();
     }
+
     public User(String username, String nickname, String password, Long kakaoId) {
         this.username = username;
         this.nickname = nickname;

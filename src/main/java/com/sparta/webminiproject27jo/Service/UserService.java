@@ -1,18 +1,17 @@
 package com.sparta.webminiproject27jo.Service;
 
 
+import com.sparta.webminiproject27jo.Dto.NicknameCheckDto;
 import com.sparta.webminiproject27jo.Dto.SignupRequestDto;
 import com.sparta.webminiproject27jo.Dto.UserInfoDto;
 import com.sparta.webminiproject27jo.Dto.UsernameCheckDto;
 import com.sparta.webminiproject27jo.Model.User;
 import com.sparta.webminiproject27jo.Repository.UserRepository;
 import com.sparta.webminiproject27jo.security.UserDetailsImpl;
+import com.sparta.webminiproject27jo.utils.Validator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,35 +19,51 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final Validator validator;
 
 
-    //회원가입 처리 및 중복검사
-    public ResponseEntity<User> registerUser(SignupRequestDto requestDto) {
-        String username = requestDto.getUsername();
+    //회원가입 확인
+    public String registerUser(SignupRequestDto requestDto) {
+        String msg = "회원가입이 완료되었습니다.";
 
-        Optional<User> existUsername = userRepository.findByUsername(username);
-        if(existUsername.isPresent()) throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
+        try {
+            //회원가입 확인
+            validator.signupValidate(requestDto);
+        } catch (IllegalArgumentException e) {
+            msg = e.getMessage();
+            return msg;
+        }
 
-        String nickname = requestDto.getNickname();
-
-        Optional<User> existNickname = userRepository.findByNickname(nickname);
-        if(existNickname.isPresent()) throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
-
-        String password = passwordEncoder.encode(requestDto.getPassword());
-
-        User user = new User(username, nickname, password);
-        userRepository.save(user);
-
-        return ResponseEntity.ok(user);
+        requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+        userRepository.save(new User(requestDto));
+        return msg;
     }
 
     //아이디 중복검사
-//    public String usernameCheck(UsernameCheckDto usernameCheckDto) {
-//        String msg = "사용가능한 아이디 입니다.";
-//
-//        Optional<User> existUsername = userRepository.findByUsername(usernameCheckDto.getUsername());
-//        if(existUsername.isPresent()) throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
-//    }
+    public String usernameCheck(UsernameCheckDto usernameCheckDto) {
+        String msg = "사용가능한 이메일 입니다.";
+
+        try {
+            validator.idCheck(usernameCheckDto);
+        } catch (IllegalArgumentException e) {
+            msg = e.getMessage();
+            return msg;
+        }
+        return msg;
+    }
+
+    //닉네임 중복검사
+    public String nicknameCheck(NicknameCheckDto nicknameCheckDto) {
+        String msg = "사용가능한 닉네임 입니다.";
+
+        try {
+            validator.nickCheck(nicknameCheckDto);
+        } catch (IllegalArgumentException e) {
+            msg = e.getMessage();
+            return msg;
+        }
+        return msg;
+    }
 
 
     //로그인한 유저 정보 가져오기
@@ -60,5 +75,5 @@ public class UserService {
         return new UserInfoDto(userId, username, nickname);
 
     }
-
 }
+

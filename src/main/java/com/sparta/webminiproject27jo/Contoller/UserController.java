@@ -1,14 +1,15 @@
 package com.sparta.webminiproject27jo.Contoller;
 
 
+import com.sparta.webminiproject27jo.Dto.NicknameCheckDto;
 import com.sparta.webminiproject27jo.Dto.SignupRequestDto;
 import com.sparta.webminiproject27jo.Dto.UserInfoDto;
-import com.sparta.webminiproject27jo.Model.User;
+import com.sparta.webminiproject27jo.Dto.UsernameCheckDto;
 import com.sparta.webminiproject27jo.security.UserDetailsImpl;
 import com.sparta.webminiproject27jo.Service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,10 +22,21 @@ public class UserController {
 
     // 회원 가입 요청 처리
     @PostMapping("/api/signup")
-    public ResponseEntity<User> registerUser(@RequestBody SignupRequestDto requestDto) {
+    public String registerUser(@RequestBody SignupRequestDto requestDto) {
         return userService.registerUser(requestDto);
     }
 
+    //아이디 중복 체크
+    @PostMapping("/api/userName")
+    public String usernameCheck(@RequestBody UsernameCheckDto usernameCheckDto){
+        return userService.usernameCheck(usernameCheckDto);
+    }
+
+    //닉네임 중복 체크
+    @PostMapping("/api/nickName")
+    public String nicknameCheck(@RequestBody NicknameCheckDto nicknameCheckDto){
+        return userService.nicknameCheck(nicknameCheckDto);
+    }
 
     //로그인 여부 확인
     @PostMapping("/api/login")

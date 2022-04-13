@@ -2,20 +2,26 @@ package com.sparta.webminiproject27jo.Contoller;
 
 
 import com.sparta.webminiproject27jo.Dto.PostDetailResponseDto;
+import com.sparta.webminiproject27jo.Dto.PostEditRequestDto;
 import com.sparta.webminiproject27jo.Dto.PostRequestDto;
 import com.sparta.webminiproject27jo.Dto.PostResponseDto;
 import com.sparta.webminiproject27jo.Model.Comment;
 import com.sparta.webminiproject27jo.Model.Post;
+import com.sparta.webminiproject27jo.Model.PostLike;
+import com.sparta.webminiproject27jo.Model.User;
 import com.sparta.webminiproject27jo.Repository.CommentRepository;
 import com.sparta.webminiproject27jo.Repository.PostLikeRepository;
 import com.sparta.webminiproject27jo.Repository.PostRepository;
+import com.sparta.webminiproject27jo.Repository.UserRepository;
 import com.sparta.webminiproject27jo.Service.CommentService;
 import com.sparta.webminiproject27jo.Service.PostService;
 import com.sparta.webminiproject27jo.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,26 +34,35 @@ public class PostController {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
     private final PostService postService;
-    private final CommentService commentService;
     private final PostLikeRepository postLikeRepository;
+    private final UserRepository userRepository;
 
     // 게시글 조회
-    @GetMapping("/api/posts")
-    public List<PostResponseDto> getPost() {
+    @PostMapping("/api/posts/{userId}")
+    public List<PostResponseDto> getPost(@PathVariable Long userId) {
+        System.out.println(userId);
+        User user = new User();
         List<Post> posts = postRepository.findAllByOrderByModifiedAtDesc();
-
-
+        if(userId != null) {
+            user = userRepository.getById(userId);
+        }
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
-
+        boolean postLikes;
         for (Post post : posts) {
-            Long postLikeTotal = postLikeRepository.countByPost(post);
+            int postLikeTotal = postLikeRepository.countByPost(post);
+
+            Optional<PostLike> postLike= postLikeRepository.findByUserAndPost(user, post);
+            postLikes = postLike.isPresent();
+
             PostResponseDto postResponseDto = new PostResponseDto(
                     post.getPostId(),
                     post.getUserId(),
                     post.getContent(),
                     post.getModifiedAt(),
                     post.getImageUrl(),
-                    postLikeTotal
+                    post.getNickName(),
+                    postLikeTotal,
+                    postLikes
             );
             postResponseDtos.add(postResponseDto);
         }
@@ -58,7 +73,7 @@ public class PostController {
     @GetMapping("/api/post/{postId}/comments")
     public PostDetailResponseDto getComments(@PathVariable Long postId){
         Post post = postRepository.getById(postId);
-        Long postLikeTotal = postLikeRepository.countByPost(post);
+        int postLikeTotal = postLikeRepository.countByPost(post);
         List<Comment> comments = commentRepository.findAllByPostId(postId);
 
         return new PostDetailResponseDto(
@@ -73,21 +88,24 @@ public class PostController {
     }
 
     // 게시글 작성
-    @PostMapping("/api/posts")
-    public Post createPost(
-            @RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails
-    ) {
+    @PostMapping("/api/post")
+    public void upload(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("content") String content,
+            @RequestParam("nickName") String nickName,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) throws IOException
+    {
 
-//        User user = userDetails.getUser();
-
-        return postService.createPost(postRequestDto);
+        PostRequestDto postRequestDto = new PostRequestDto(content, file, nickName, userDetails.getUser().getId());
+        postService.upload(postRequestDto, "static");
     }
 
      //게시글 수정
     @PutMapping("/api/posts/{postId}")
-    public Long updateDiary(
+    public Long updatePost(
             @PathVariable Long postId,
-            @RequestBody PostRequestDto requestDto) {
+            @RequestBody PostEditRequestDto requestDto) {
         postService.updatePost(postId, requestDto);
         return postId;
     }
@@ -100,6 +118,7 @@ public class PostController {
         return postId;
     }
 
+    //
 }
 
 

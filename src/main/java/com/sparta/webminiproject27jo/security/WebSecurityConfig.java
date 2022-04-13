@@ -1,6 +1,5 @@
 package com.sparta.webminiproject27jo.security;
 
-
 import com.sparta.webminiproject27jo.security.filter.FormLoginFilter;
 import com.sparta.webminiproject27jo.security.filter.JwtAuthFilter;
 import com.sparta.webminiproject27jo.security.jwt.HeaderTokenExtractor;
@@ -129,10 +128,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         skipPathList.add("GET,/user/**");
         skipPathList.add("POST,/user/**");
         skipPathList.add("POST,/api/signup");
+        skipPathList.add("POST,/api/nickName");
+        skipPathList.add("POST,/api/userName");
+        skipPathList.add("POST,/api/posts/**");
 
         skipPathList.add("GET,/api/**");
 
         skipPathList.add("GET,/");
+        skipPathList.add("POST,/");
         skipPathList.add("GET,/basic.js");
 
         skipPathList.add("GET,/favicon.ico");

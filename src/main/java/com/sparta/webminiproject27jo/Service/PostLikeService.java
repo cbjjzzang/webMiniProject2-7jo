@@ -3,6 +3,7 @@ package com.sparta.webminiproject27jo.Service;
 
 import com.sparta.webminiproject27jo.Dto.PostLikeRequestDto;
 import com.sparta.webminiproject27jo.Dto.PostLikeResponseDto;
+import com.sparta.webminiproject27jo.Dto.PostResponseDto;
 import com.sparta.webminiproject27jo.Model.Post;
 import com.sparta.webminiproject27jo.Model.PostLike;
 import com.sparta.webminiproject27jo.Model.User;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -52,5 +55,32 @@ public class PostLikeService {
         return postLikeRepository.findAll();
     }
 
+
+    public List<PostResponseDto> topPosts() {
+        List<Post> posts = new ArrayList<>();
+        posts = postRepository.findAll();
+        List<PostResponseDto> postResponseDtos = new ArrayList<>();
+
+        for (Post post : posts) {
+
+            int postLikeTotal = postLikeRepository.countByPost(post);
+
+            PostResponseDto postResponseDto = new PostResponseDto(
+                    post.getPostId(),
+                    post.getUserId(),
+                    post.getContent(),
+                    post.getModifiedAt(),
+                    post.getImageUrl(),
+                    post.getNickName(),
+                    postLikeTotal
+            );
+            postResponseDtos.add(postResponseDto);
+        }
+
+        postResponseDtos.sort(Comparator.comparing(PostResponseDto::getPostLikeTotal, Comparator.reverseOrder()));
+
+
+        return postResponseDtos;
+    }
 }
 

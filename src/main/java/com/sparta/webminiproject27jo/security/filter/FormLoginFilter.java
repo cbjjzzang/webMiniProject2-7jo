@@ -36,4 +36,5 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
         setDetails(request, authRequest);
         return this.getAuthenticationManager().authenticate(authRequest);
     }
+
 }

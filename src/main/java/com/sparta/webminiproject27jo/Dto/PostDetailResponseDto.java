@@ -16,11 +16,11 @@ public class PostDetailResponseDto {
     private final String content;
     private final LocalDateTime modifiedAt;
     private final String imageUrl;
-    private Long postLikeTotal;
+    private int postLikeTotal;
     private List<Comment> comments;
 
 
-    public PostDetailResponseDto(Long postId, Long userId, String content, LocalDateTime modifiedAt, String imageUrl, Long postLikeTotal, List<Comment> comments){
+    public PostDetailResponseDto(Long postId, Long userId, String content, LocalDateTime modifiedAt, String imageUrl, int postLikeTotal, List<Comment> comments){
         this.postId = postId;
         this.content = content;
         this.userId = userId;

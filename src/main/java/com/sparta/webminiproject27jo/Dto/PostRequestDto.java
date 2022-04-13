@@ -3,6 +3,7 @@ package com.sparta.webminiproject27jo.Dto;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -13,13 +14,16 @@ import java.time.LocalDateTime;
 public class PostRequestDto {
 
     private String content;
-    private String imageUrl;
+    private MultipartFile file;
     private Long userId;
+    private String nickName;
 
-    public PostRequestDto(String content, String imageUrl, Long userId) {
+    public PostRequestDto(String content, MultipartFile file, String nickName, Long userId) {
         this.content = content;
         this.userId = userId;
-        this.imageUrl = imageUrl;
+        this.file = file;
+        this.nickName = nickName;
+
     }
 }
 

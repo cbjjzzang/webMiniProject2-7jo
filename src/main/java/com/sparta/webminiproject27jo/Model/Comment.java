@@ -33,7 +33,7 @@ public class Comment extends Timestamped {
 
     public Comment(CommentRequestDto requestDto, Long uid){
         this.comment = requestDto.getComment();
-        this.nickname = requestDto.getNickname();
+        this.nickname = requestDto.getNickName();
         this.postId = requestDto.getPostId();
         this.uid = uid;
     }

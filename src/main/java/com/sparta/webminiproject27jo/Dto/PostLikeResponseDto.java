@@ -5,9 +5,9 @@ import lombok.Getter;
 @Getter
 public class PostLikeResponseDto {
     private Long postId;
-    private Long totalLike;
+    private int totalLike;
 
-    public PostLikeResponseDto(Long postId, Long totalLike){
+    public PostLikeResponseDto(Long postId, int totalLike){
         this.postId = postId;
         this.totalLike = totalLike;
     }
