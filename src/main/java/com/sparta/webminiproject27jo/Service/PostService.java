@@ -150,15 +150,13 @@ public class PostService {
 
     //삭제
     @Transactional
-    public void deletePost(Long postId
-//            , UserDetailsImpl userDetails
-    ) {
+    public void deletePost(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("일기가 존재하지 않습니다.")
         );
         List<Comment> comments = commentRepository.findAllByPostId(postId);
         for(Comment comment : comments){
-            Long temp = comment.getId();
+            Long temp = comment.getCommentId();
             commentRepository.deleteById(temp);
         }
         postRepository.deleteById(postId);

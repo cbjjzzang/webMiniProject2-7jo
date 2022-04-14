@@ -13,7 +13,6 @@ import com.sparta.webminiproject27jo.Repository.CommentRepository;
 import com.sparta.webminiproject27jo.Repository.PostLikeRepository;
 import com.sparta.webminiproject27jo.Repository.PostRepository;
 import com.sparta.webminiproject27jo.Repository.UserRepository;
-import com.sparta.webminiproject27jo.Service.CommentService;
 import com.sparta.webminiproject27jo.Service.PostService;
 import com.sparta.webminiproject27jo.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -70,21 +69,21 @@ public class PostController {
         return postResponseDtos;
     }
     //특정게시글 조회
-    @GetMapping("/api/post/{postId}/comments")
+    @GetMapping("/api/postDetail/{postId}/comments")
     public PostDetailResponseDto getComments(@PathVariable Long postId){
         Post post = postRepository.getById(postId);
         int postLikeTotal = postLikeRepository.countByPost(post);
-        List<Comment> comments = commentRepository.findAllByPostId(postId);
+        List<Comment> comments = commentRepository.findByPostIdOrderByModifiedAtDesc(postId);
 
         return new PostDetailResponseDto(
                 post.getPostId(),
                 post.getUserId(),
                 post.getContent(),
+                post.getNickName(),
                 post.getModifiedAt(),
                 post.getImageUrl(),
                 postLikeTotal,
                 comments );
-
     }
 
     // 게시글 작성
@@ -109,16 +108,13 @@ public class PostController {
         postService.updatePost(postId, requestDto);
         return postId;
     }
-//
-//
+
     //게시글 삭제
     @DeleteMapping("/api/posts/{postId}")
     public Long deletePost(@PathVariable Long postId) {
         postService.deletePost(postId);
         return postId;
     }
-
-    //
 }
 
 

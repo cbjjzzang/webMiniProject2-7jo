@@ -16,25 +16,25 @@ import javax.persistence.*;
 public class Comment extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long commentId;
 
     @Column
     private String comment;
 
     @Column
-    private String nickname;
+    private String nickName;
 
     @Column
     private Long postId;
 
     @Column
-    private Long uid;
+    private Long userId;
 
 
-    public Comment(CommentRequestDto requestDto, Long uid){
+    public Comment(CommentRequestDto requestDto, Long userId){
         this.comment = requestDto.getComment();
-        this.nickname = requestDto.getNickName();
+        this.nickName = requestDto.getNickName();
         this.postId = requestDto.getPostId();
-        this.uid = uid;
+        this.userId = userId;
     }
 }

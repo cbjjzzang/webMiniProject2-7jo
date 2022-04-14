@@ -50,10 +50,10 @@ public class PostLikeService {
         return openOrNot;
     }
 
-  public List<PostLike> showLike() {
-
-        return postLikeRepository.findAll();
-    }
+//  public List<PostLike> showLike() {
+//
+//        return postLikeRepository.findAll();
+//    }
 
 
     public List<PostResponseDto> topPosts() {

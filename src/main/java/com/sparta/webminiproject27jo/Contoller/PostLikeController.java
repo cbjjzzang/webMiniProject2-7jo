@@ -21,12 +21,12 @@ public class PostLikeController {
         return postLikeService.addLike(postId, userDetails.getUser().getId());
     }
 
-    @GetMapping("/api/likes")
-    public List<PostLike> showComments() {
-        return postLikeService.showLike();
-    }
+//    @GetMapping("/api/likes")
+//    public List<PostLike> showComments() {
+//        return postLikeService.showLike();
+//    }
 
-    @GetMapping("/api/posts/rank")
+    @PostMapping("/api/posts/rank")
     public List<PostResponseDto> topPosts(){
         return postLikeService.topPosts();
     }

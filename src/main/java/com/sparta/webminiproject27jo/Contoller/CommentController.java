@@ -23,20 +23,23 @@ public class CommentController {
 
     private final CommentService commentService;
 
+
+    //댓글 작성
     @PostMapping("/api/comments/{postId}")
-    public ResponseEntity<Comment> createComment(@PathVariable Long postId,
+    public ResponseEntity<Comment> createComment(
             @Validated @RequestBody CommentRequestDto requestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails){
         Comment comment = commentService.createComment(requestDto, userDetails);
         return ResponseEntity.ok(comment); //responseEntity를 생성하는 함수
     }
-
-    @GetMapping("/api/post/comments")
-    public List<Comment> showComments(){
-        return commentService.showComment();
-
-    }
-//    // 게시글 디테일 조회 - 여기서 글+댓글 정보 읽어올 수 있음
+//
+//
+//    @PostMapping("/api/post/comments")
+//    public List<Comment> showComments(){
+//        return commentService.showComment();
+//
+//    }
+////    // 게시글 디테일 조회 - 여기서 글+댓글 정보 읽어올 수 있음
 //    @GetMapping("/api/diary/{id}")
 //    public Diary getDiary(@PathVariable Long id) {
 //        Diary diary = diaryRepository.findById(id).orElseThrow(
@@ -62,6 +65,4 @@ public class CommentController {
 //        commentService.deleteComment(commentId,userDetails)
         commentService.deleteComment(commentId);
     }
-
-
 }
