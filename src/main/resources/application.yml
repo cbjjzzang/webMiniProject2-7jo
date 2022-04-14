@@ -15,9 +15,18 @@ spring:
     console:
       enabled: true  # H2 웹 콘솔을 사용하겠다는 의미
       path: /h2-console  # 콘솔의 경로
+      settings:
+        web-allow-others: true
 
   datasource:
     driver-class-name: org.h2.Driver  #h2 드라이버 설정
     url: jdbc:h2:mem:webMiniProject27jo  #접속 URL
     username: sa  # 사용자 이름 (로그인 시 사용)
     password:   # 사용자 암호 (로그인 시 사용)
+
+
+    spring:
+      servlet:
+        multipart:
+          max-file-size: 10MB
+          max-request-size: 10MB

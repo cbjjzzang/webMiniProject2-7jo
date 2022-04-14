@@ -1,7 +1,6 @@
 package com.sparta.webminiproject27jo.Contoller;
 
 import com.sparta.webminiproject27jo.Dto.PostResponseDto;
-import com.sparta.webminiproject27jo.Model.PostLike;
 import com.sparta.webminiproject27jo.Service.PostLikeService;
 import com.sparta.webminiproject27jo.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
