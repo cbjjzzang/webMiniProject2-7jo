@@ -2,15 +2,16 @@ package com.sparta.webminiproject27jo.Service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.sparta.webminiproject27jo.Dto.PostDto;
-import com.sparta.webminiproject27jo.Dto.PostEditRequestDto;
-import com.sparta.webminiproject27jo.Dto.PostRequestDto;
+import com.sparta.webminiproject27jo.Dto.*;
 import com.sparta.webminiproject27jo.Model.Comment;
 import com.sparta.webminiproject27jo.Model.Post;
+import com.sparta.webminiproject27jo.Model.PostLike;
+import com.sparta.webminiproject27jo.Model.User;
 import com.sparta.webminiproject27jo.Repository.CommentRepository;
+import com.sparta.webminiproject27jo.Repository.PostLikeRepository;
 import com.sparta.webminiproject27jo.Repository.PostRepository;
+import com.sparta.webminiproject27jo.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,10 +22,7 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,10 +31,9 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
-//    private final ImageUrlRepository imageUrlRepository;
-
     private final AmazonS3Client amazonS3Client;
-
+    private final PostLikeRepository postLikeRepository;
+    private  final UserRepository userRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;  // S3 버킷 이름
@@ -100,7 +97,6 @@ public class PostService {
         log.info("File delete fail");
     }
 
-
     // 로컬에 파일 업로드 하기
     private Optional<File> convert(MultipartFile file) throws IOException {
         File convertFile = new File(System.getProperty("user.dir") + "/" + file.getOriginalFilename());
@@ -113,27 +109,6 @@ public class PostService {
 
         return Optional.empty();
     }
-    //글 작성
-//    @Transactional
-//    public Post createPost(
-//            PostRequestDto requestDto) {
-//
-//
-//
-////        String content = requestDto.getContent();
-////        List<Comment> comments = commentRepository.findAllByPostId(postId);
-////        if (requestDto.getContent() == null) {
-////            throw new IllegalArgumentException("내용을 입력해주세요.");
-////        }
-////        if (content.length() > 1000) {
-////            throw new IllegalArgumentException("1000자 이하로 입력해주세요.");
-////        }
-//
-//        Post post = new Post(requestDto);
-//
-//        return postRepository.save(post);
-//    }
-
 
     //수정
     @Transactional
@@ -142,7 +117,7 @@ public class PostService {
             PostEditRequestDto requestDto
     ) {
         Post post = postRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("일기가 존재하지 않습니다.")
+                () -> new IllegalArgumentException("글이 존재하지 않습니다.")
         );
         post.updatePost(requestDto);
         return post;
@@ -152,7 +127,7 @@ public class PostService {
     @Transactional
     public void deletePost(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("일기가 존재하지 않습니다.")
+                () -> new IllegalArgumentException("글이 존재하지 않습니다.")
         );
         List<Comment> comments = commentRepository.findAllByPostId(postId);
         for(Comment comment : comments){
@@ -160,5 +135,52 @@ public class PostService {
             commentRepository.deleteById(temp);
         }
         postRepository.deleteById(postId);
+    }
+
+    // 전체 게시글 조회
+    public List<PostResponseDto> getPost(Long userId) {
+        User user = new User();
+        List<Post> posts = postRepository.findAllByOrderByModifiedAtDesc();
+        if(userId != null) {
+            user = userRepository.getById(userId);
+        }
+        List<PostResponseDto> postResponseDtos = new ArrayList<>();
+        boolean postLikes;
+        for (Post post : posts) {
+            int postLikeTotal = postLikeRepository.countByPost(post);
+
+            Optional<PostLike> postLike= postLikeRepository.findByUserAndPost(user, post);
+            postLikes = postLike.isPresent();
+
+            PostResponseDto postResponseDto = new PostResponseDto(
+                    post.getPostId(),
+                    post.getUserId(),
+                    post.getContent(),
+                    post.getModifiedAt(),
+                    post.getImageUrl(),
+                    post.getNickName(),
+                    postLikeTotal,
+                    postLikes
+            );
+            postResponseDtos.add(postResponseDto);
+        }
+        return postResponseDtos;
+    }
+
+    //특정게시글 조회
+    public PostDetailResponseDto getPostDetail(Long postId) {
+        Post post = postRepository.getById(postId);
+        int postLikeTotal = postLikeRepository.countByPost(post);
+        List<Comment> comments = commentRepository.findByPostIdOrderByModifiedAtDesc(postId);
+
+        return new PostDetailResponseDto(
+                post.getPostId(),
+                post.getUserId(),
+                post.getContent(),
+                post.getNickName(),
+                post.getModifiedAt(),
+                post.getImageUrl(),
+                postLikeTotal,
+                comments );
     }
 }

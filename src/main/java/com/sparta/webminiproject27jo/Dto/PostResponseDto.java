@@ -19,7 +19,7 @@ public class PostResponseDto implements Comparable<PostResponseDto> {
     private String nickName;
     private int postLikeTotal;
 
-
+    //
     public PostResponseDto(Long postId,Long userId, String content, LocalDateTime modifiedAt, String imageUrl, String nickName, int postLikeTotal, boolean postLike){
 //    List<ImageUrl> imageUrlList , String emotion, String tag, Boolean is_open, DiaryLike diaryLike, Long diaryLikeTotal) {
         this.postId = postId;
@@ -34,7 +34,6 @@ public class PostResponseDto implements Comparable<PostResponseDto> {
     }
 
     public PostResponseDto(Long postId,Long userId, String content, LocalDateTime modifiedAt, String imageUrl, String nickName, int postLikeTotal){
-//    List<ImageUrl> imageUrlList , String emotion, String tag, Boolean is_open, DiaryLike diaryLike, Long diaryLikeTotal) {
         this.postId = postId;
         this.content = content;
         this.userId = userId;
@@ -49,7 +48,4 @@ public class PostResponseDto implements Comparable<PostResponseDto> {
     public int compareTo(PostResponseDto postResponseDto) {
         return Integer.compare(postResponseDto.getPostLikeTotal(), this.getPostLikeTotal());
     }
-
-//    public PostResponseDto(Long postId, Long userId, String content, LocalDateTime modifiedAt, String imageUrl, Long postLikeTotal) {
-//    }
 }

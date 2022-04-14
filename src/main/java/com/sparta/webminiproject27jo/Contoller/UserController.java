@@ -9,7 +9,6 @@ import com.sparta.webminiproject27jo.security.UserDetailsImpl;
 import com.sparta.webminiproject27jo.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,7 +38,7 @@ public class UserController {
     }
 
     //로그인 여부 확인
-    @GetMapping("/api/login")
+    @PostMapping("/api/login")
     public UserInfoDto getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         System.out.println(userDetails.getUser().getId());
         return userService.getUserInfo(userDetails);

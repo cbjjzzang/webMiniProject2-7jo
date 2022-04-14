@@ -59,5 +59,4 @@ public class Post extends Timestamped {
         this.imageUrl = postDto.getImageUrl();
         this.nickName = postDto.getNickName();
     }
-
 }

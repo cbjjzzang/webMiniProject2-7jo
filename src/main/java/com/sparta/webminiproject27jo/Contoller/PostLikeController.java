@@ -24,7 +24,7 @@ public class PostLikeController {
 //    public List<PostLike> showComments() {
 //        return postLikeService.showLike();
 //    }
-
+    //좋아요가 많은 순으로 포스트 가져오기
     @PostMapping("/api/posts/rank")
     public List<PostResponseDto> topPosts(){
         return postLikeService.topPosts();
