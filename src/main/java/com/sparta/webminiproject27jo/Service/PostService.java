@@ -129,6 +129,7 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("글이 존재하지 않습니다.")
         );
+        postLikeRepository.deleteAllByPost(post);
         List<Comment> comments = commentRepository.findAllByPostId(postId);
         for(Comment comment : comments){
             Long temp = comment.getCommentId();
